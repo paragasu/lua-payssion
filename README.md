@@ -11,7 +11,7 @@ lua api for payssion.com payment gateway
   create new payssion object
   param
   - api\_key string from payssion account
-  - secret\_key string from payssion account 
+  - secret\_key string from payssion account
   - live sandbox or live, default sandbox
 
 
@@ -21,7 +21,7 @@ lua api for payssion.com payment gateway
   - paymentmethod_id payment method as provided by payssion
   - order\_id unique string to refer to transaction
   - amount total amount charged
-  - currency abbr of currency 
+  - currency abbr of currency
   - desc description of the transaction
 
 
@@ -29,10 +29,10 @@ lua api for payssion.com payment gateway
   Get the transaction details
   params
   - transaction_id payssion transaction\_id
-  - order_id payment ref    
+  - order_id payment ref
 
  
-  **check_signature** _(transaction\_id, order\_id, notify\_sig)_ 
+  **check_signature** _(transaction\_id, order\_id, notify\_sig)_
   validate the notification message
   params
   - transaction\_id payssion transaction\_id
