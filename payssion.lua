@@ -1,7 +1,6 @@
--- Payssion.com lua api
+-- lua api for payssion payment gateway
 -- Author Jeffry L. <paragasu@gmail.com>
--- 
--- ref: https://payssion.com/en/docs
+-- reference https://payssion.com/en/docs
 
 local requests = require 'requests'
 local md5 = require 'md5'
