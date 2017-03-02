@@ -1,5 +1,7 @@
 # lua-payssion
-lua api for payssion.com payment gateway. Payssion is payment gateway provider based in HK. What make payssion
+LUA api for payssion.com payment gateway. 
+
+Payssion is payment gateway provider based in HK. What make payssion
 attractive compare to paypal or stripe is that it support wide range of online banking payment, which is more popular
 in SEA where credit card ownership is a luxury.
 
