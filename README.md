@@ -69,3 +69,5 @@ lua api for payssion.com payment gateway
   
 ```
 
+# Reference
+[Payssion API](https://payssion.com/en/docs)
