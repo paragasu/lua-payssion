@@ -14,6 +14,7 @@ lua api for payssion.com payment gateway
   - secret\_key string from payssion account 
   - live sandbox or live, default sandbox
 
+
   **create** _(paymentmethod\_id, order\_id, amount, currency, desc)_
   submit new payment request for processing
   param
@@ -23,11 +24,13 @@ lua api for payssion.com payment gateway
   - currency abbr of currency 
   - desc description of the transaction
 
+
   **details** _(transaction\_id, order\_id)_
   Get the transaction details
   params
   - transaction_id payssion transaction\_id
   - order_id payment ref    
+
  
   **check_signature** _(transaction\_id, order\_id, notify\_sig)_ 
   validate the notification message
