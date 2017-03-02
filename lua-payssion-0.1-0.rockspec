@@ -1,5 +1,5 @@
 package = "lua-payssion"
-version = "0.1.0"
+version = "0.1-0"
 
 source = {
     url = "git://github.com/paragasu/lua-payssion.git"
