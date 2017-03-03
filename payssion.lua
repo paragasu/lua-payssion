@@ -9,27 +9,27 @@ local Payssion = {}
 local api_url = 'https://sandbox.payssion.com/api/v1/payment'
 local api_key, secret_key, pm_id, order_id, currency, amount, desc
 local error_code = {
-  200 = 'Success',
-  400 = 'Invalid parameter',
-  401 = 'Invalid merchant_id',
-  402 = 'Invalid api signature',
-  403 = 'Invalid app name',
-  405 = 'Invalid payment method',
-  406 = 'Invalid currency',
-  407 = 'Invalid amount',
-  408 = 'Invalid language',
-  409 = 'Invalid url',
-  411 = 'Invalid secret key',
-  412 = 'Invalid transaction id',
-  413 = 'Repeated order',
-  414 = 'Invalid country',
-  415 = 'Invalid payment type',
-  420 = 'Invalid request method',
-  441 = 'The app is inactive',
-  500 = 'Server error',
-  501 = 'Server busy',
-  502 = 'The third party error',
-  503 = 'Service not found' 
+  [200] = 'Success',
+  [400] = 'Invalid parameter',
+  [401] = 'Invalid merchant_id',
+  [402] = 'Invalid api signature',
+  [403] = 'Invalid app name',
+  [405] = 'Invalid payment method',
+  [406] = 'Invalid currency',
+  [407] = 'Invalid amount',
+  [408] = 'Invalid language',
+  [409] = 'Invalid url',
+  [411] = 'Invalid secret key',
+  [412] = 'Invalid transaction id',
+  [413] = 'Repeated order',
+  [414] = 'Invalid country',
+  [415] = 'Invalid payment type',
+  [420] = 'Invalid request method',
+  [441] = 'The app is inactive',
+  [500] = 'Server error',
+  [501] = 'Server busy',
+  [502] = 'The third party error',
+  [503] = 'Service not found' 
 }
 
 local payment_state = {
@@ -50,7 +50,7 @@ local payment_state = {
 }
 
 -- set configuration
-function Payssion:new(api_key, secret_key, live=false)
+function Payssion:new(api_key, secret_key, live)
   api_key    = api_key
   secret_key = secret_key
   if live then api_url = 'https://www.payssion.com/api/v1/payment' end 
