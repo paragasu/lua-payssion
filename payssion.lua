@@ -62,7 +62,7 @@ end
 -- create payment
 function Payssion:create(paymentmethod_id, order_id, amount, currency, desc)
   local sig = self.create_request_signature(paymentmethod_id, amount, currency, order_id)
-  local response = requests.post(api_url + '/create', {
+  local response = requests.post(api_url .. '/create', {
     api_key  = api_key,
     api_sig  = sig,
     pm_id    = paymentmethod_id,
@@ -81,7 +81,7 @@ end
 
 -- get payment details
 function Payssion:details(transaction_id, order_id)
-  local response = requests.post(api_url + '/details', {
+  local response = requests.post(api_url .. '/details', {
     api_key = api_key,
     transaction_id = transaction_id,
     order_id = order_id,
