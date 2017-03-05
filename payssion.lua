@@ -73,7 +73,10 @@ function Payssion:create(paymentmethod_id, order_id, amount, currency, desc)
   })
   local body, err = response.json()
   if not err and body.result_code == 200 then
-    return body.redirect_url, body.transaction.transaction_id  
+    return {
+      redirect_url   = body.redirect_url, 
+      transaction_id = body.transaction.transaction_id
+    }
   else
     return nil, error_code[body.result_code] or err
   end
