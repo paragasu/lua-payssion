@@ -74,6 +74,8 @@ function Payssion:create(paymentmethod_id, order_id, amount, currency, desc)
       order_id = body.transaction.order_id,
       redirect_url   = body.redirect_url, 
       transaction_id = body.transaction.transaction_id,
+      amount = body.transaction.amount,
+      currency = body.transaction.currency,
       state = body.transaction.state
     }
   else
