@@ -50,10 +50,13 @@ local payment_state = {
 }
 
 -- set configuration
-function Payssion:new(api_key, secret_key, live)
+function Payssion:new(self, api_key, secret_key, live)
   api_key    = api_key
   secret_key = secret_key
+  if not api_key then error("Not valid payssion api_key") end
+  if not secret_key then error("Not valid payssion secret_key") end
   if live then api_url = 'https://www.payssion.com/api/v1/payment' end 
+  return self
 end
 
 -- create payment
