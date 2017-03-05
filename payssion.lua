@@ -4,34 +4,11 @@
 
 local requests = require 'requests'
 local md5 = require 'md5'
+local i   = require 'inspect'
 
 local Payssion = {}
 local api_url = 'https://sandbox.payssion.com/api/v1/payment'
 local api_key, secret_key, pm_id, order_id, currency, amount, desc
-local error_code = {
-  [200] = 'Success',
-  [400] = 'Invalid parameter',
-  [401] = 'Invalid merchant_id',
-  [402] = 'Invalid api signature',
-  [403] = 'Invalid app name',
-  [405] = 'Invalid payment method',
-  [406] = 'Invalid currency',
-  [407] = 'Invalid amount',
-  [408] = 'Invalid language',
-  [409] = 'Invalid url',
-  [411] = 'Invalid secret key',
-  [412] = 'Invalid transaction id',
-  [413] = 'Repeated order',
-  [414] = 'Invalid country',
-  [415] = 'Invalid payment type',
-  [420] = 'Invalid request method',
-  [441] = 'The app is inactive',
-  [500] = 'Server error',
-  [501] = 'Server busy',
-  [502] = 'The third party error',
-  [503] = 'Service not found' 
-}
-
 local payment_state = {
   error = 'Some error happens',
   pending = 'The payment has not been paid yet',
@@ -49,6 +26,21 @@ local payment_state = {
   chargeback = 'There is a chargeback for this payment' 
 }
 
+-- encode string into escaped hexadecimal representation
+-- from socket.url implementation
+function escape(s)
+  return (string.gsub(s, "([^A-Za-z0-9_])", function(c)
+    return string.format("%%%02x", string.byte(c))
+  end))
+end
+
+-- encode url
+function encode_url(args)
+  local params = {}
+  for k, v in pairs(args) do table.insert(params, k .. '=' .. escape(v)) end
+  return table.concat(params, "&")
+end
+
 -- set configuration
 function Payssion:new(config_api_key, config_secret_key, live)
   api_key    = config_api_key
@@ -62,23 +54,30 @@ end
 -- create payment
 function Payssion:create(paymentmethod_id, order_id, amount, currency, desc)
   local sig = self.create_request_signature(paymentmethod_id, amount, currency, order_id)
-  local response = requests.post(api_url .. '/create', {
+  local params = {
     api_key  = api_key,
     api_sig  = sig,
     pm_id    = paymentmethod_id,
-    order_id = order_id,
+    order_id = tostring(order_id),
+    amount   = tostring(amount),
     currency = currency,
-    amount   = amount,
     description = desc  
+  }
+  local response = requests.post({
+      url  = api_url .. '/create', 
+      data = encode_url(params),
+      headers = { ["Content-Type"] = "application/x-www-form-urlencoded" }
   })
   local body, err = response.json()
   if not err and body.result_code == 200 then
     return {
+      order_id = body.transaction.order_id,
       redirect_url   = body.redirect_url, 
-      transaction_id = body.transaction.transaction_id
+      transaction_id = body.transaction.transaction_id,
+      state = body.transaction.state
     }
   else
-    return nil, error_code[body.result_code] or err
+    return nil, body.description or err
   end
 end
 
