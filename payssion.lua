@@ -50,7 +50,7 @@ local payment_state = {
 }
 
 -- set configuration
-function Payssion:new(self, api_key, secret_key, live)
+function Payssion:new(api_key, secret_key, live)
   api_key    = api_key
   secret_key = secret_key
   if not api_key then error("Not valid payssion api_key") end
@@ -101,17 +101,17 @@ end
 
 -- generate request signature
 function Payssion.create_request_signature(pm_id, amount, currency, order_id)
-  return md5(table.concat({ api_secret, pm_id, amount, currency, order_id, secret_key}, '|'))
+  return md5(table.concat({ api_key, pm_id, amount, currency, order_id, secret_key}, '|'))
 end
 
 -- generate notify signature
 function Payssion.create_notify_signature(transaction_id, order_id)
-  return md5(table.concat({ api_secret, transaction_id, order_id, secret_key}, '|'))
+  return md5(table.concat({ api_key, transaction_id, order_id, secret_key}, '|'))
 end
 
 -- generate detail signature
 function Payssion.create_notify_signature(pm_id, amount, currency, order_id, state)
-  return md5(table.concat({ api_secret, pm_id, amount, currency, order_id, state, secret_key}, '|'))
+  return md5(table.concat({ api_key, pm_id, amount, currency, order_id, state, secret_key}, '|'))
 end
 
 return Payssion
