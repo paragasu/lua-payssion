@@ -8,6 +8,7 @@ local i   = require 'inspect'
 
 local Payssion = {}
 local api_url = 'https://sandbox.payssion.com/api/v1/payment'
+local sandbox = true
 local api_key, secret_key, pm_id, order_id, currency, amount, desc
 local payment_state = {
   error = 'Some error happens',
@@ -47,12 +48,21 @@ function Payssion:new(config_api_key, config_secret_key, live)
   secret_key = config_secret_key
   if not api_key then error("Not valid payssion api_key") end
   if not secret_key then error("Not valid payssion secret_key") end
-  if live then api_url = 'https://www.payssion.com/api/v1/payment' end 
+  if live then 
+    api_url = 'https://www.payssion.com/api/v1/payment' 
+    sandbox = false
+  end 
   return self
 end
 
 -- create payment
 function Payssion:create(paymentmethod_id, order_id, amount, currency, desc)
+  if not paymentmethod_id then return nil, "Invalid payment method" end
+  if not order_id then return nil, "Invalid order id reference" end
+  if not amount or amount == 0 then return nil, "Invalid amount" end
+  if not currency then return nil, "Missing currency" end
+  if not desc then return nil, "Missing description" end
+  if sandbox then paymentmethod_id = 'dotpay_pl' end -- dotpay_pl or sofort 
   local sig = self.create_request_signature(paymentmethod_id, amount, currency, order_id)
   local params = {
     api_key  = api_key,
