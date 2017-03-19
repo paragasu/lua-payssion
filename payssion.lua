@@ -108,8 +108,9 @@ function Payssion:details(transaction_id, order_id)
 end
 
 -- check notification signature
-function Payssion:check_signature(transaction_id, order_id, notify_sig)
-  local valid_signature = Payssion.create_notify_signature(transaction_id, order_id)
+function Payssion:check_signature(payssion_notification_data)
+  local req = payssion_notification_data;
+  local valid_signature = Payssion.create_notify_signature(req.pm_id, req.amount, req.currency, req.order_id, req.state)
   return valid_signature  == notify_sig
 end
 
@@ -119,7 +120,7 @@ function Payssion.create_request_signature(pm_id, amount, currency, order_id)
 end
 
 -- generate notify signature
-function Payssion.create_notify_signature(transaction_id, order_id)
+function Payssion.create_detail_signature(transaction_id, order_id)
   return md5.sumhexa(table.concat({ api_key, transaction_id, order_id, secret_key}, '|'))
 end
 
