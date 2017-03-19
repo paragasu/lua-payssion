@@ -108,10 +108,10 @@ function Payssion:details(transaction_id, order_id)
 end
 
 -- check notification signature
-function Payssion:check_signature(payssion_notification_data)
-  local req = payssion_notification_data;
+-- @param req table from payssion callback params
+function Payssion.check_signature(req)
   local valid_signature = Payssion.create_notify_signature(req.pm_id, req.amount, req.currency, req.order_id, req.state)
-  return valid_signature  == notify_sig
+  return valid_signature  == req.notify_sig
 end
 
 -- generate request signature
