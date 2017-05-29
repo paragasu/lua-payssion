@@ -15,7 +15,8 @@ description = {
 
 dependencies = {
     "lua = 5.1",
-    "lua-requests",
+    "lua-cjson",
+    "lua-resty-http",
     "md5"
 }
 
