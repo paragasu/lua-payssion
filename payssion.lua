@@ -10,22 +10,6 @@ local Payssion = {}
 local api_url = 'https://sandbox.payssion.com/api/v1/payment'
 local sandbox = true
 local api_key, secret_key, pm_id, order_id, currency, amount, desc
-local payment_state = {
-  error = 'Some error happens',
-  pending = 'The payment has not been paid yet',
-  completed = 'The payment has been completed',
-  paid_partial = 'The payment was paid in partial',
-  awaiting_confirm = 'The payment may have been paid but we have not yet received it',
-  failed = 'The payment was failed',
-  cancelled = 'The payment has been cancelled',
-  cancelled_by_user = 'The payment has been cancelled by the user',
-  rejected_by_bank = 'The payment has been rejected by the bank',
-  expired = 'The payment has been expired',
-  refunded = 'The payment has been refunded',
-  refund_pending = 'The refund of this payment has not been completed yet',
-  refund_failed = 'Failed to refund this payment',
-  chargeback = 'There is a chargeback for this payment' 
-}
 
 -- encode string into escaped hexadecimal representation
 -- from socket.url implementation
@@ -95,6 +79,8 @@ end
 
 -- get payment details
 function Payssion:details(transaction_id, order_id)
+  if not transaction_id then return nil, "Invalid transaction_id" end
+  if not order_id then return nil, "Invalid order_id" end
   local response = requests.post(api_url .. '/details', {
     api_key = api_key,
     transaction_id = transaction_id,
@@ -110,6 +96,11 @@ end
 -- check notification signature
 -- @param req table from payssion callback params
 function Payssion.check_signature(req)
+  if not req.pm_id  then return nil, "Invalid pm_id" end
+  if not req.state  then return nil, "Invalid state" end
+  if not req.amount then return nil, "Invalid amount" end
+  if not req.currency then return nil, "Invalid currency" end
+  if not req.order_id then return nil, "Invalid order_id" end
   local valid_signature = Payssion.create_notify_signature(req.pm_id, req.amount, req.currency, req.order_id, req.state)
   return valid_signature  == req.notify_sig
 end
