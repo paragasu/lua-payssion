@@ -54,10 +54,10 @@ in SEA where credit card ownership is a luxury.
   })
 
   -- create payment
-  local url, trans_id = pay:create(paymentmethod_id, order_id, amount, currency, desc)
-  if url not nil then
-    -- save trans_id
-    -- redirect to url
+  local res, err = pay:create(paymentmethod_id, order_id, amount, currency, desc)
+  if res not nil then
+    -- save res.order_id
+    -- redirect to res.redirect_url
   end
 
   -- process payment notification
