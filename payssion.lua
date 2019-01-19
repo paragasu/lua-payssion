@@ -10,7 +10,7 @@ local inspect = require 'inspect'
 local Payssion = {}
 local sandbox_url = 'https://sandbox.payssion.com/api/v1/payment'
 local api_url = 'https://www.payssion.com/api/v1/payment' 
-local api_key, secret_key, pm_id, order_id, currency, amount, desc
+local api_key, secret_key, pm_id, order_id, currency, amount, description
 local sandboxed = true
 
 -- encode string into escaped hexadecimal representation
@@ -64,9 +64,9 @@ end
 -- @param order_id order ref for this transaction
 -- @param amount total amount
 -- @param currency currency code
--- @param desc transaction description 
+-- @param description transaction description 
 -- @return table with order_id, redirect_url, transaction_id, amount, currency & state key
-function Payssion:create(pm_id, order_id, amount, currency, desc)
+function Payssion:create(pm_id, order_id, amount, currency, description)
   local args
   if type(pm_id) == 'table' then
     args = pm_id
@@ -76,7 +76,7 @@ function Payssion:create(pm_id, order_id, amount, currency, desc)
       order_id = tostring(order_id),
       amount = tostring(amount),
       currency = currency,
-      description = desc
+      description = description
     }
   end
 
@@ -84,7 +84,7 @@ function Payssion:create(pm_id, order_id, amount, currency, desc)
   if not args.order_id then return nil, "Invalid order id reference" end
   if not args.amount then return nil, "Invalid amount" end
   if not args.currency then return nil, "Missing currency" end
-  if not args.desc then return nil, "Missing description" end
+  if not args.description then return nil, "Missing description" end
   if sandbox then pm_id = 'dotpay_pl' end -- dotpay_pl or sofort 
 
   args.api_key = api_key
