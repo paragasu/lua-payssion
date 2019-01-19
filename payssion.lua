@@ -11,7 +11,7 @@ local Payssion = {}
 local sandbox_url = 'https://sandbox.payssion.com/api/v1/payment'
 local api_url = 'https://www.payssion.com/api/v1/payment' 
 local api_key, secret_key, pm_id, order_id, currency, amount, desc
-local sandbox = true
+local sandboxed = true
 
 -- encode string into escaped hexadecimal representation
 -- from socket.url implementation
@@ -37,7 +37,8 @@ end
 -- @return httpc request result
 function post(path, data)
   local httpc = http.new()
-  return httpc:request_uri(url, {
+  local url = sandboxed and sandbox_url or api_url
+  return httpc:request_uri(url .. path, {
     method  = "POST", 
     headers = { ["Content-Type"] = "application/x-www-form-urlencoded" },
     body    = encode_url(args.data),
