@@ -50,7 +50,7 @@ end
 -- @param payssion_api payssion api key
 -- @param payssion_secret secret key
 -- @param mode
-function Payssion:new(payssion_api, payssin_secret, live)
+function Payssion:new(payssion_api, payssion_secret, live)
   api_key = payssion_api
   secret_key = payssion_secret
   sandbox = live or false
