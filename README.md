@@ -19,10 +19,10 @@ in SEA where credit card ownership is a luxury.
   - live sandbox or live, default sandbox
 
 
-### **create** _(paymentmethod\_id, order\_id, amount, currency, desc)_
+### **create** _(pm\_id, order\_id, amount, currency, desc)_
   submit new payment request for processing
   param
-  - paymentmethod_id payment method as provided by payssion
+  - pm_id payment method as provided by payssion
   - order\_id unique string to refer to transaction
   - amount total amount charged
   - currency abbr of currency
@@ -30,6 +30,13 @@ in SEA where credit card ownership is a luxury.
 
 
 ### **details** _(transaction\_id, order\_id)_
+  Get the transaction details
+  params
+  - transaction_id payssion transaction\_id
+  - order_id payment ref
+
+
+### **get_transaction_state** _(transaction\_id, order\_id)_
   Get the transaction details
   params
   - transaction_id payssion transaction\_id
@@ -54,7 +61,20 @@ in SEA where credit card ownership is a luxury.
   })
 
   -- create payment
-  local res, err = pay:create(paymentmethod_id, order_id, amount, currency, desc)
+  local res, err = pay:create(pm_id, order_id, amount, currency, desc)
+  if res not nil then
+    -- save res.order_id
+    -- redirect to res.redirect_url
+  end
+
+  -- alternatively using params as documented in https://payssion.com/en/docs/#api-reference-payment-request
+  local res, err = pay:create({
+    pm_id = pm_id,
+    amount = amount,
+    currency = 'MYR',
+    description = 'My test order'
+  })
+
   if res not nil then
     -- save res.order_id
     -- redirect to res.redirect_url
@@ -66,7 +86,7 @@ in SEA where credit card ownership is a luxury.
   end
 
   -- get payment details
-  local info = pay:details(transaction_id, order_id)
+  local info = pay:get_transaction_state(transaction_id, order_id)
   if info then
     -- show payment info
   end
