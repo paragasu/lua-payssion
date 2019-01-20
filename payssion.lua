@@ -41,7 +41,7 @@ function post(path, data)
   return httpc:request_uri(url .. path, {
     method  = "POST", 
     headers = { ["Content-Type"] = "application/x-www-form-urlencoded" },
-    body    = encode_url(args.data),
+    body    = encode_url(data),
     ssl_verify = false
   })
 end
@@ -88,7 +88,7 @@ function Payssion:create(pm_id, order_id, amount, currency, description)
   if sandbox then pm_id = 'dotpay_pl' end -- dotpay_pl or sofort 
 
   args.api_key = api_key
-  args.api_sig = self.create_request_signature(pm_id, amount, currency, order_id)
+  args.api_sig = self.create_request_signature(args.pm_id, args.amount, args.currency, args.order_id)
 
   local res, err = post('/create', args)
 
