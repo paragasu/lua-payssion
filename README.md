@@ -11,12 +11,12 @@ in SEA where credit card ownership is a luxury.
 
 # API
 
-### **new** _(api\_key, api\_secret, live)_
+### **new** _(api\_key, api\_secret, sandboxed)_
   create new payssion object
   param
   - api\_key string from payssion account
   - secret\_key string from payssion account
-  - live sandbox or live, default sandbox
+  - sandboxed sandbox or live, default true
 
 
 ### **create** _(pm\_id, order\_id, amount, currency, desc)_
