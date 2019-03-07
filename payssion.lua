@@ -53,7 +53,7 @@ end
 function Payssion:new(payssion_api, payssion_secret, sandboxed)
   api_key = payssion_api
   secret_key = payssion_secret
-  sandbox = sandboxed or true
+  if not sandboxed then sandbox = false end
   if not api_key then error("Not valid payssion api_key") end
   if not secret_key then error("Not valid payssion secret_key") end
   return self
