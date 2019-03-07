@@ -96,6 +96,8 @@ function Payssion:create(pm_id, order_id, amount, currency, description)
   if res.status ~= 200 then return error("Error processing payment: " .. res.body) end
   local body = json.decode(res.body)
 
+  if body.result_code ~= 200 then return error("Error processing payment: " .. body.description) end
+
   return {
     order_id = body.transaction.order_id,
     redirect_url   = body.redirect_url, 
